@@ -21,11 +21,12 @@
 # linear relationship  
   y1 <- rnorm(n, mean = x1 + 0.5*x2)
   
-# x has non linear relationship
-  y2 <- rnorm(n, mean = x1 + 0.5*x2 + 0.5*x1^2)
-  
 # interaction
-  y3 <- rnorm(n, mean = x1 + 0.5*x2 + 0.5*x1*x2)
+  y2 <- rnorm(n, mean = x1 + 0.5*x2 + 0.5*x1*x2)
+
+# x has non linear relationship
+  y3 <- rnorm(n, mean = x1 + 0.5*x2 + 0.5*x1^2)
+  
 
 # fit linear interaction model
   m1 <- lm(y1 ~ x1*x2)
@@ -84,7 +85,7 @@
 ######################################################## 
 # construct a table of results
   
-  tab <- data.frame(gen.model = rep(c("Linear", "Nonlinear", "Interaction"), each = 3),
+  tab <- data.frame(gen.model = rep(c("Linear", "Interaction", "Nonlinear"), each = 3),
                     param = rep(c("b1", "b2", "b3"), 3))
   
   tab$int.est <- round(c(summary(m1)$coef[2:4, 1],

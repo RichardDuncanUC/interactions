@@ -203,6 +203,7 @@
   
   aic <- arrange(aic, aic) %>%
     mutate(delta = aic - min(aic))
-  
+
+# check aic  
   aic
   
