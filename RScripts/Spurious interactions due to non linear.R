@@ -41,12 +41,19 @@
     mtext(n, line = 1, adj = 0, cex = 1.5)
   }
 
-  par(mfrow = c(3, 2))
+  par(mfrow = c(3, 2), mar = c(5, 5, 5, 2))
   
-  pf(y1, x1, "y_1", "x_1", "a"); pf(y1, x2, "y_1", "x_2", "b")
-  pf(y2, x1, "y_2", "x_1", "c"); pf(y2, x2, "y_2", "x_2", "d")
-  pf(y3, x1, "y_3", "x_1", "e"); pf(y3, x2, "y_3", "x_2", "f")
+  ly1 <- expression(y[1])
+  ly2 <- expression(y[2])
+  ly3 <- expression(y[3])
+  lx1 <- expression(x[1])
+  lx2 <- expression(x[2])
   
+  pf(y1, x1, ly1, lx1, "a"); pf(y1, x2, ly1, lx2, "b")
+  pf(y2, x1, ly2, lx1, "c"); pf(y2, x2, ly2, lx2, "d")
+  pf(y3, x1, ly3, lx1, "e"); pf(y3, x2, ly3, lx2, "f")
+
+#########################################################################  
 # residual plots for the three models
 # function to plot
   pr <- function(m, title) {
@@ -60,8 +67,11 @@
   par(mfrow = c(2, 2))
   
   pr(m1, expression(y[1]))
+    mtext("a", line = 1, adj = 0, cex = 1.5)
   pr(m2, expression(y[2]))
+    mtext("b", line = 1, adj = 0, cex = 1.5)
   pr(m3, expression(y[3]))
+    mtext("c", line = 1, adj = 0, cex = 1.5)
   
 
 ######################################################## 

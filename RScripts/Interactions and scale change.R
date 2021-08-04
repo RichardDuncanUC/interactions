@@ -95,12 +95,12 @@
 # x1
   plot(ly ~ jitter(x1, 0.3), pch = 19, col = x2, cex = 1.8, xlim = c(4, 22),
        xaxt = "n", xlab = expression(x[1]), bty = "l", ylab = "log(y)", cex.lab = 1.3)
-  axis(1, at = c(10, 20), labels = c(10, 20), cex = 1.3)
+  axis(1, at = c(10, 20), labels = c("Low", "High"), cex = 1.3)
   lines(c(10, 20), c(mean(ly[x1 == 10 & x2 == 10]), mean(ly[x1 == 10 & x2 == 20])), col = x2[1], lwd = 2)
   lines(c(10, 20), c(mean(ly[x1 == 10 & x2 == 20]), mean(ly[x1 == 20 & x2 == 20])), col = x2[2], lwd = 2)
   mtext("a", line = 1, adj = 0, cex = 1.3)
   legend("topleft", 
-         legend = c(10, 20), 
+         legend = c("Low", "High"), 
          col = c(x2[1], x2[2]), 
          pch = 19, 
          pt.cex = 2, 
@@ -110,13 +110,17 @@
 
   plot(y ~ jitter(x1, 0.3), pch = 19, col = x2, cex = 1.8, xlim = c(4, 22),
        xaxt = "n", xlab = expression(x[1]), bty = "l", ylab = "y", cex.lab = 1.3)
-  axis(1, at = c(10, 20), labels = c(10, 20), cex = 1.3)
+  axis(1, at = c(10, 20), labels = c("Low", "High"), cex = 1.3)
   lines(c(10, 20), c(mean(y[x1 == 10 & x2 == 10]), mean(y[x1 == 10 & x2 == 20])), col = x2[1], lwd = 2)
   lines(c(10, 20), c(mean(y[x1 == 10 & x2 == 20]), mean(y[x1 == 20 & x2 == 20])), col = x2[2], lwd = 2)
   mtext("b", line = 1, adj = 0, cex = 1.3)
 
-  summary(lm(log(y) ~ x1*x2))
-  summary(lm(y ~ x1*x2))
-  summary(lm(y ~ x1 + x2))
+# analyse as factor variables
+  fx1 <- factor(x1)
+  fx2 <- factor(x2)
+  
+  summary(lm(log(y) ~ fx1*fx2))
+  summary(lm(y ~ fx1*fx2))
+  summary(lm(y ~ fx1 + fx2))
   
   
