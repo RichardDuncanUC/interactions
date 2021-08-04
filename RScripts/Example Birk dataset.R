@@ -152,7 +152,14 @@
 # log scale  
   
   sub.dat <- dat[dat$case == 167, ]
+  
+# plot the raw data
+  par(mfrow = c(2, 2))
+  plot(y ~ x1, data = sub.dat)
+  plot(y ~ x2, data = sub.dat)
+  plot(x2 ~ x1, data = sub.dat)
 
+# log transform and plot  
   y <- as.vector(scale(log(sub.dat$y)))
   x1 <- as.vector(scale(log(sub.dat$x1)))
   x2 <- as.vector(scale(log(sub.dat$x2)))
@@ -204,6 +211,5 @@
   aic <- arrange(aic, aic) %>%
     mutate(delta = aic - min(aic))
 
-# check aic  
   aic
   
