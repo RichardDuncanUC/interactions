@@ -4,9 +4,9 @@
   library(parallel)
 
   
-# example modified from 
-# On the ambiguity of interaction and nonlinear main effects in a regime of dependent covariates
-# Matuschek & Kliegl 2018 
+# this example is modified from: 
+# "On the ambiguity of interaction and nonlinear main effects in a regime of dependent covariates"
+# by Matuschek & Kliegl (2018) 
 
   set.seed(123)
   n <- 2000
@@ -33,7 +33,7 @@
   m2 <- lm(y2 ~ x1*x2)
   m3 <- lm(y3 ~ x1*x2)
 
-  
+# plot relationships between the variables (Figure S1)  
 # plot function
   pf <- function(a, b, yl, xl, n) {
     plot(a ~ b, main = paste("r = ", round(cor(a, b), 2)), cex.lab = 1.5, 
@@ -55,7 +55,7 @@
   pf(y3, x1, ly3, lx1, "e"); pf(y3, x2, ly3, lx2, "f")
 
 #########################################################################  
-# residual plots for the three models
+# residual plots for the three models (Figure S2)
 # function to plot
   pr <- function(m, title) {
     plot(m$residuals ~ predict(m), pch = 19, col = rgb(0, 0, 0, 0.2),
@@ -83,7 +83,7 @@
   m6 <- gam(y3 ~ s(x1) + s(x2) + x1:x2)  
   
 ######################################################## 
-# construct a table of results
+# construct a table of results (Table 1)
   
   tab <- data.frame(gen.model = rep(c("Linear", "Interaction", "Nonlinear"), each = 3),
                     param = rep(c("b1", "b2", "b3"), 3))
@@ -160,7 +160,8 @@
 
   out <- parLapply(my_cluster, rep(n, nrun), function(x) ac(x))
   stopCluster(my_cluster)  
-  
+
+# put data in a useable format  
   out.all <- matrix(nrow = nrun, ncol = 9)
   for(i in 1:9) {
     out.all[, i] <- unlist(lapply(out, function(x) x[[i]]))
@@ -169,10 +170,13 @@
   colnames(out.all) <- c("cor", "m1.est", "m1.p", "m2.est", "m2.p", "m3.est", "m3.p", "m4.est", "m4.p")
   out.all <- as.data.frame(out.all)
 
+# set colours
   cl1 <- ifelse(out.all$m1.p <= 0.05, "tomato", "skyblue")
   cl2 <- ifelse(out.all$m2.p <= 0.05, "tomato", "skyblue")
   cl3 <- ifelse(out.all$m3.p <= 0.05, "tomato", "skyblue")
   cl4 <- ifelse(out.all$m4.p <= 0.05, "tomato", "skyblue")
+
+# draw Figure 3
   
   par(mfrow = c(2, 2), oma = c(0, 0, 4, 4))
   
