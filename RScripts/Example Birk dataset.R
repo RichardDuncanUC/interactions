@@ -40,6 +40,9 @@
   summary(m3)
 
 # plot
+  
+  pdf("data/Figure 4.pdf", width = 7, height = 7)
+
   par(mfrow = c(2, 2), mar = c(1, 1, 1, 1))
 
 # specify too.far (see vis.gam help)  
@@ -64,7 +67,10 @@
         theta = 140, phi = 25, too.far = tf, zlim = c(z1, z2), n.grid = 20,
         main = expression(paste(bold(c), "     y = ", beta[0], "+ s(", x[1], ") + s(", x[2],
                                 ") + ti(", x[1], ",", x[2], ")")), zlab = "y")
-
+  
+  dev.off()
+  
+######################################################################  
 # compare AIC values
   aic <- data.frame(aic = c(AIC(m1), AIC(m2), AIC(m3)),
                     model = 1:3)

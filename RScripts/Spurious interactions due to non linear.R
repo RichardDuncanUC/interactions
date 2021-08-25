@@ -36,11 +36,13 @@
 # plot relationships between the variables (Figure S1)  
 # plot function
   pf <- function(a, b, yl, xl, n) {
-    plot(a ~ b, main = paste("r = ", round(cor(a, b), 2)), cex.lab = 1.5, 
+    plot(a ~ b, main = paste("r = ", round(cor(a, b), 2)), cex.lab = 1.3, 
          ylim = c(-4, 4), xlim = c(-1.8, 1.8), bty = "l",
-         ylab = yl, xlab = xl, pch = 19, col = rgb(0, 0, 0, 0.1))
+         ylab = yl, xlab = xl, pch = 19, col = rgb(0, 0, 0, 0.1), cex = 0.7)
     mtext(n, line = 1, adj = 0, cex = 1.5)
   }
+
+  pdf("data/Figure S1.pdf", width = 7, height = 7)
 
   par(mfrow = c(3, 2), mar = c(5, 5, 5, 2))
   
@@ -53,6 +55,8 @@
   pf(y1, x1, ly1, lx1, "a"); pf(y1, x2, ly1, lx2, "b")
   pf(y2, x1, ly2, lx1, "c"); pf(y2, x2, ly2, lx2, "d")
   pf(y3, x1, ly3, lx1, "e"); pf(y3, x2, ly3, lx2, "f")
+  
+  dev.off()
 
 #########################################################################  
 # residual plots for the three models (Figure S2)
@@ -60,20 +64,22 @@
   pr <- function(m, title) {
     plot(m$residuals ~ predict(m), pch = 19, col = rgb(0, 0, 0, 0.2),
          xlab = "Fitted values", ylab = "Residuals", bty = "l", main = title, 
-         cex.main = 1.5, cex.lab = 1.3)
+         cex.main = 1.3, cex.lab = 1.2, cex = 0.7)
     abline(h = 0)
   }
   
+  pdf("data/Figure S2.pdf", width = 7, height = 7)
   
   par(mfrow = c(2, 2))
   
   pr(m1, expression(y[1]))
-    mtext("a", line = 1, adj = 0, cex = 1.5)
+    mtext("a", line = 1, adj = 0, cex = 1.4)
   pr(m2, expression(y[2]))
-    mtext("b", line = 1, adj = 0, cex = 1.5)
+    mtext("b", line = 1, adj = 0, cex = 1.4)
   pr(m3, expression(y[3]))
-    mtext("c", line = 1, adj = 0, cex = 1.5)
-  
+    mtext("c", line = 1, adj = 0, cex = 1.4)
+    
+  dev.off()
 
 ######################################################## 
 # now allow for nonlinear relationships
@@ -146,7 +152,7 @@
   }
   
 
-  set.seed(123)
+  set.seed(124)
 # number of observations
   n <- 2000
 
@@ -177,38 +183,42 @@
   cl4 <- ifelse(out.all$m4.p <= 0.05, "tomato", "skyblue")
 
 # draw Figure 3
+
+  pdf("data/Figure 3.pdf", width = 7, height = 7)
   
-  par(mfrow = c(2, 2), oma = c(0, 0, 4, 4))
+  par(mfrow = c(2, 2), mar = c(4, 4.5, 4, 2), oma = c(0, 0, 4, 4))
   
   plot(out.all$m1.est ~ out.all$cor, pch = 19, col = cl1, 
        ylab = expression(paste("Estimated interaction term  ", beta[3])), 
-       xlab = "", bty = "l", cex.lab = 1.2, ylim = c(-0.5, 0.5))
+       xlab = "", bty = "l", cex.lab = 1, ylim = c(-0.5, 0.5), cex = 0.4)
   mtext("a", line = 1, adj = 0, cex = 1.3)
-  abline(h = 0, lwd = 2)
-  mtext("Fitted model", line = 5, cex = 1.2)
-  mtext(expression(paste("y = ",beta[0]," + ",beta[1],x[1]," + ",beta[2],x[2]," + ",beta[3],x[1],x[2])), line = 3, cex = 1.2)
+  abline(h = 0, lwd = 1.5)
+  mtext("Fitted model", line = 5, cex = 1)
+  mtext(expression(paste("y = ",beta[0]," + ",beta[1],x[1]," + ",beta[2],x[2]," + ",beta[3],x[1],x[2])), line = 3, cex = 1)
 
   plot(out.all$m2.est ~ out.all$cor, pch = 19, col = cl2, ylab = "", 
-       xlab = "", bty = "l", cex.lab = 1.2, ylim = c(-0.5, 0.5))
+       xlab = "", bty = "l", cex.lab = 1, ylim = c(-0.5, 0.5), cex = 0.4)
   mtext("b", line = 1, adj = 0, cex = 1.3)
-  abline(h = 0, lwd = 2)
-  mtext("Fitted model", line = 5, cex = 1.2)
-  mtext(expression(paste("y = ",beta[0], " + s(",x[1],") + s(",x[2],") + ",beta[3],x[1],x[2])), line = 3, cex = 1.2)
-  text(1.2, 0, "Generating model", xpd = NA, srt = -90, cex = 1.4)
-  text(1, 0, expression(paste("y = ",x[1]," + 0.5",x[2]," + 0.5",x[1],x[1])), xpd = NA, srt = -90, cex = 1.4)
+  abline(h = 0, lwd = 1.5)
+  mtext("Fitted model", line = 5, cex = 1)
+  mtext(expression(paste("y = ",beta[0], " + s(",x[1],") + s(",x[2],") + ",beta[3],x[1],x[2])), line = 3, cex = 1)
+  text(1.2, 0, "Generating model", xpd = NA, srt = -90, cex = 1.2)
+  text(1, 0, expression(paste("y = ",x[1]," + 0.5",x[2]," + 0.5",x[1],x[1])), xpd = NA, srt = -90, cex = 1)
 
   plot(out.all$m3.est ~ out.all$cor, pch = 19, col = cl3, 
        ylab = expression(paste("Estimated interaction term  ", beta[3])), 
-       xlab = "Correlation between x1 and x2", bty = "l", cex.lab = 1.2)
+       xlab = expression(paste("Correlation between ", x[1], " and ", x[2])), bty = "l", cex.lab = 1, cex = 0.4)
   mtext("c", line = 1, adj = 0, cex = 1.3)
-  abline(h = 0.5, lwd = 2)
+  abline(h = 0.5, lwd = 1.5)
 
   plot(out.all$m4.est ~ out.all$cor, pch = 19, col = cl4, ylab = "", 
-       xlab = "Correlation between x1 and x2", bty = "l", cex.lab = 1.2)
+       xlab = expression(paste("Correlation between ", x[1], " and ", x[2])), bty = "l", cex.lab = 1, cex = 0.4)
   mtext("d", line = 1, adj = 0, cex = 1.3)
-  abline(h = 0.5, lwd = 2)
-  text(1.2, 0.5, "Generating model", xpd = NA, srt = -90, cex = 1.4)
-  text(1, 0.5, expression(paste("y = ",x[1]," + 0.5",x[2]," + 0.5",x[1],x[2])), xpd = NA, srt = -90, cex = 1.4)
+  abline(h = 0.5, lwd = 1.5)
+  text(1.2, 0.5, "Generating model", xpd = NA, srt = -90, cex = 1.2)
+  text(1, 0.5, expression(paste("y = ",x[1]," + 0.5",x[2]," + 0.5",x[1],x[2])), xpd = NA, srt = -90, cex = 1)
+  
+  dev.off()
 
 # number of false positives
   table(cl1)
